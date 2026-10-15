@@ -1,3 +1,12 @@
+/* Every page opens at the top (unless the link targets a section) */
+(function(){
+  try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}
+  var touched=false;['wheel','touchstart','keydown','mousedown'].forEach(function(t){addEventListener(t,function(){touched=true},{once:true,passive:true})});
+  function top(){if(!location.hash&&!touched)window.scrollTo(0,0)}
+  top();
+  addEventListener('DOMContentLoaded',top);
+  addEventListener('load',function(){top();setTimeout(top,60)});
+})();
 (function(){
   var btn=document.getElementById('menuBtn'),nav=document.getElementById('siteNav');
   if(btn&&nav){

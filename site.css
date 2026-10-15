@@ -410,6 +410,17 @@ table.ages{width:100%;border-collapse:collapse;min-width:620px;font-size:15px}
 .glance dd{margin:0;font-size:15.5px;color:var(--on-deep-muted)}
 .glance-foot{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,243,248,.6)}
 
+/* Licensed states */
+.states{display:flex;flex-wrap:wrap;gap:8px}
+.states span{font-size:14px;font-weight:600;color:var(--ink);padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.faq .states span{font-size:13px;padding:6px 12px}
+.lic-note{margin-top:4px;font-size:13.5px;color:var(--muted)}
+.lic-note a{color:var(--brand);font-weight:600}
+
+/* Teaser links sit on one shared baseline at the bottom of each card */
+.teaser{grid-template-rows:auto 1fr auto;align-content:stretch}
+.teaser span{align-self:end}
+
 /* ================= VFX layer ================= */
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}

@@ -4,6 +4,7 @@ OUT = pathlib.Path(__file__).parent / "out"
 OUT.mkdir(exist_ok=True)
 
 PHONE = "480.750.2999"
+STATES = ['Arizona', 'California', 'Colorado', 'Georgia', 'Idaho', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Maryland', 'Michigan', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Mexico', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Virginia', 'Washington', 'West Virginia', 'Wyoming']
 TEL = "tel:+14807502999"
 
 NAV = [("about", "about.html", "About"), ("services", "services.html", "Services"),
@@ -25,7 +26,7 @@ def header(active):
     <button class="menu-btn" id="menuBtn" aria-controls="siteNav" aria-expanded="false" aria-label="Open menu"><span></span></button>
     <nav class="nav" id="siteNav" data-open="false" aria-label="Main">
       {links}
-      <a class="btn btn-ink" href="contact.html">Book a consultation</a>
+      <a class="btn btn-ink" href="https://fantastical.app/michelerps/meet-with-michele-diamond" target="_blank" rel="noopener">Book a consultation</a>
     </nav>
   </div>
 </header>'''
@@ -52,6 +53,7 @@ FOOTER = f'''<footer>
   <div class="wrap legal">
     <p>Licensed Insurance Professional. Life insurance and annuities can be used in a variety of retirement planning strategies. Guarantees are backed by the financial strength and claims-paying ability of the issuing insurance company.</p>
     <p>This material has been prepared for informational purposes only. It is not intended to provide, and should not be relied upon for, accounting, legal, tax or investment advice. Diamond Retirement Strategies is not affiliated with or endorsed by the Social Security Administration, Medicare or any government agency.</p>
+    <p>Licensed to offer insurance products in {", ".join(STATES)}. Products and services may not be available in every state.</p>
     <p>© 2026 Diamond Retirement Strategies</p>
   </div>
 </footer>'''
@@ -113,6 +115,8 @@ def render_body(text):
         crumb, h1, lede = m.group(1).split("||")
         return page_hero(crumb.strip(), h1.strip(), lede.strip())
     text = re.sub(r"\{\{hero\|(.*?)\}\}", rep, text, flags=re.S)
+    chips = "".join(f"<span>{s}</span>" for s in STATES)
+    text = text.replace("{{STATES_CHIPS}}", f'<div class="states" aria-label="States where we are licensed">{chips}</div>').replace("{{STATES_COUNT}}", str(len(STATES)))
     return text.replace("{{PHONE}}", PHONE).replace("{{TEL}}", TEL)
 
 (OUT / "site.css").write_text((SRC / "base.css").read_text() + (SRC / "extra.css").read_text() + (SRC / "vfx.css").read_text() + (SRC / "blog.css").read_text())
