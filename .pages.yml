@@ -1,0 +1,43 @@
+media:
+  input: assets/blog
+  output: assets/blog
+content:
+  - name: posts
+    label: Blog posts
+    type: collection
+    path: _posts
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [ title, category, date ]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: date
+        label: Publish date
+        type: date
+        required: true
+      - name: category
+        label: Topic
+        type: select
+        required: true
+        options:
+          values: [ "Retirement Income", "Social Security", "Medicare", "Rollovers", "Long-Term Care", "Life Insurance & Legacy", "Taxes", "Firm News" ]
+      - name: excerpt
+        label: Summary (shown on the blog page, 1–2 sentences)
+        type: text
+        required: true
+      - name: image
+        label: Cover image (optional)
+        type: image
+      - name: author
+        label: Author
+        type: string
+        default: Diamond Retirement Strategies
+      - name: body
+        label: Article
+        type: rich-text
