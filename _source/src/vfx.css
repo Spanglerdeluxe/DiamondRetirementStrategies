@@ -1,0 +1,87 @@
+
+/* ================= VFX layer ================= */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+
+/* Scroll progress + header state */
+.scroll-progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform-origin:left;transform:scaleX(var(--p,0));background:linear-gradient(90deg,#23306E,#8E8AD8,#D9DAF2);pointer-events:none}
+.site-header{transition:box-shadow .3s ease,background .3s ease}
+.site-header.scrolled{box-shadow:0 10px 30px -18px rgba(18,26,61,.45)}
+.brand .logo-img{transition:height .3s ease}
+.site-header.scrolled .brand .logo-img{height:60px}
+.site-header.scrolled .header-row{min-height:80px}
+@media (max-width:480px){.site-header.scrolled .brand .logo-img{height:50px}.site-header.scrolled .header-row{min-height:70px}}
+
+/* Sparkle canvas in dark bands */
+.fx-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .fx-canvas{z-index:-2}
+.page-hero .fx-canvas,.cta .fx-canvas{z-index:-1}
+.hero-ridge,.hero-gem{will-change:transform}
+
+/* Hero gem: facets draw in, then a light sweep runs across */
+.hero-gem path{stroke-dasharray:1;stroke-dashoffset:0}
+.gem-sweep{mix-blend-mode:screen}
+
+/* Hero headline word reveal (visible at rest; motion only) */
+.hero h1 .w{display:inline-block}
+.hero h1 em{background-size:200% 100%}
+
+/* Services ribbon */
+.ribbon{position:relative;overflow:hidden;background:var(--deep);border-top:1px solid rgba(243,243,248,.08);color:var(--on-deep-muted);padding-block:18px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ribbon-track{display:flex;width:max-content;gap:0}
+.ribbon-track span{display:inline-flex;align-items:center;gap:28px;padding-right:28px;white-space:nowrap;font-family:var(--font-display);font-size:20px;font-style:italic;color:#D4D5EE}
+.ribbon-track i{width:8px;height:8px;transform:rotate(45deg);background:linear-gradient(135deg,#FFFFFF,#8E8AD8);flex:none}
+
+/* Buttons: light sweep */
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;z-index:-1;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);opacity:0;transition:none}
+.btn-gem::before,.btn-ink::before{z-index:1;mix-blend-mode:soft-light}
+.btn:hover::before{opacity:1;left:130%;transition:left .7s ease,opacity .2s}
+
+/* Card spotlight follows the pointer */
+.svc,.card,.teaser,.fig,.member,.qa div,.info{position:relative;--mx:50%;--my:50%}
+.svc::after,.card::after,.teaser::after,.fig::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(320px circle at var(--mx) var(--my),color-mix(in srgb,var(--accent) 16%,transparent),transparent 65%)}
+.svc:hover::after,.card:hover::after,.teaser:hover::after,.fig:hover::after{opacity:1}
+.tilt{transform-style:preserve-3d;transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+
+/* Glance panel shimmer line */
+.glance::after{content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;z-index:-1;background:linear-gradient(100deg,transparent,rgba(200,200,255,.12),transparent);transform:skewX(-18deg)}
+
+/* CTA aurora */
+.cta::after{content:"";position:absolute;inset:-40%;z-index:-1;background:conic-gradient(from 0deg at 60% 60%,transparent 0deg,rgba(142,138,216,.18) 60deg,transparent 140deg,rgba(60,74,150,.25) 220deg,transparent 300deg);filter:blur(40px)}
+
+/* Process diamonds glow */
+.step::after{box-shadow:0 0 0 0 rgba(142,138,216,.6)}
+
+@media (prefers-reduced-motion:no-preference){
+  .hero-gem path{stroke-dashoffset:1;animation:draw 2.4s .3s cubic-bezier(.6,.1,.2,1) forwards}
+  .hero-gem path:nth-child(2){animation-delay:.9s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .gem-sweep{animation:sweep 7s 2.6s ease-in-out infinite}
+  @keyframes sweep{0%{transform:translateX(-220px)}55%,100%{transform:translateX(260px)}}
+  .hero h1 .w{animation:wordIn .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.15s + var(--i) * .06s)}
+  @keyframes wordIn{from{transform:translateY(.35em) rotate(2deg);filter:blur(6px)}to{transform:none;filter:none}}
+  .hero h1 em,.page-hero h1 em{animation:shine 6s 1.2s ease-in-out infinite}
+  @keyframes shine{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+  .ribbon-track{animation:marquee 46s linear infinite}
+  .ribbon:hover .ribbon-track{animation-play-state:paused}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+  .glance::after{animation:glide 6s 1s ease-in-out infinite}
+  @keyframes glide{0%{left:-30%}60%,100%{left:120%}}
+  .cta::after{animation:aurora 24s linear infinite}
+  @keyframes aurora{to{transform:rotate(360deg)}}
+  .step::after{animation:pulse 3s ease-out infinite;animation-delay:calc(var(--d,0) * .6s)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(142,138,216,.55)}70%,100%{box-shadow:0 0 0 12px rgba(142,138,216,0)}}
+  .chip i{animation:blink 2.4s ease-in-out infinite}
+  @keyframes blink{50%{box-shadow:0 0 0 7px rgba(184,184,242,.08)}}
+
+  /* Scroll reveal: content stays readable before it animates */
+  .rv{transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .9s ease;transition-delay:var(--rd,0s)}
+  .rv.pre{transform:translateY(34px);opacity:.25}
+  .fig .bar i{transition:width 1.4s cubic-bezier(.2,.7,.2,1) .2s}
+  .fig.pre-bar .bar i{width:0!important}
+}
+@media (prefers-reduced-motion:reduce){.fx-canvas{display:none}}
+
+.jump{top:calc(env(safe-area-inset-top,0px) + 80px)}
+@media (max-width:480px){.jump{top:calc(env(safe-area-inset-top,0px) + 70px)}}
