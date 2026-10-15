@@ -1,0 +1,22 @@
+---
+layout: default
+title: Blog
+cta: true
+---
+<section class="page-hero">
+  <span class="gem-line" aria-hidden="true"><img src="drs-mark.png" alt="" width="760" height="578"></span>
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Blog</span></p>
+    <h1>Insights for a <em>confident</em> retirement.</h1>
+    <p>Plain-English articles on retirement income, Social Security, Medicare and more from the team at Diamond Retirement Strategies.</p>
+  </div>
+</section>
+<section class="band" aria-label="Articles">
+  <div class="wrap">
+    <div class="filters" role="group" aria-label="Filter by topic"><button type="button" data-filter="all" aria-pressed="true">All topics</button>{% assign cats = site.posts | map: "category" | uniq %}{% for c in cats %}<button type="button" data-filter="{{ c }}" aria-pressed="false">{{ c }}</button>{% endfor %}</div>
+    <div class="post-grid">
+      {% assign featured = true %}{% for post in site.posts %}<a class="post-card{% if forloop.first and featured %} featured{% endif %}" href="{{ post.url | remove_first: '/' }}" data-cat="{{ post.category }}">{% if post.image %}<div class="post-thumb"><img src="{{ post.image }}" alt="" loading="lazy"></div>{% else %}<div class="post-thumb" aria-hidden="true"><span class="thumb-mark" aria-hidden="true"><img src="drs-mark.png" alt="" width="760" height="578"></span><span class="cat">{{ post.category }}</span></div>{% endif %}<div class="body"><p class="meta">{{ post.category }} · <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %-d, %Y" }}</time></p><h3>{{ post.title }}</h3><p>{{ post.excerpt | strip_html | strip }}</p><span class="go">Read article →</span></div></a>{% endfor %}
+    </div>
+    <p class="empty" id="noPosts" hidden>No articles in this topic yet.</p>
+  </div>
+</section>

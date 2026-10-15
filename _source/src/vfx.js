@@ -36,16 +36,6 @@
     });
   }
 
-  /* Gem light sweep */
-  if(gem){
-    var ns='http://www.w3.org/2000/svg';
-    var defs=gem.querySelector('defs')||gem.insertBefore(document.createElementNS(ns,'defs'),gem.firstChild);
-    defs.insertAdjacentHTML('beforeend','<linearGradient id="sweepG" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><clipPath id="gemClip"><path d="M45 10h110l40 45L100 165 5 55z"/></clipPath>');
-    var g=document.createElementNS(ns,'g');g.setAttribute('clip-path','url(#gemClip)');
-    g.innerHTML='<rect class="gem-sweep" x="-40" y="-20" width="60" height="220" fill="url(#sweepG)" opacity=".35" transform="translate(-220 0)"/>';
-    gem.appendChild(g);
-  }
-
   /* Sparkle canvases in dark bands */
   if(!reduce){
     document.querySelectorAll('.hero, .page-hero, .cta').forEach(function(host){

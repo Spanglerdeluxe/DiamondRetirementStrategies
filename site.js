@@ -35,6 +35,19 @@
     upd();
   }
 })();
+/* Blog category filter */
+(function(){
+  var bar=document.querySelector('.filters');if(!bar)return;
+  var cards=[].slice.call(document.querySelectorAll('.post-card')),empty=document.getElementById('noPosts');
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    bar.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var f=b.getAttribute('data-filter'),shown=0;
+    cards.forEach(function(c){var on=f==='all'||c.getAttribute('data-cat')===f;c.hidden=!on;if(on)shown++;c.classList.toggle('featured',false)});
+    var first=cards.find(function(c){return !c.hidden});if(first&&f==='all')first.classList.add('featured');
+    if(empty)empty.hidden=shown>0;
+  });
+})();
 
 (function(){
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -72,16 +85,6 @@
         h1.replaceChild(frag,n);
       }else if(n.nodeType===1){n.classList.add('w');n.style.setProperty('--i',i++)}
     });
-  }
-
-  /* Gem light sweep */
-  if(gem){
-    var ns='http://www.w3.org/2000/svg';
-    var defs=gem.querySelector('defs')||gem.insertBefore(document.createElementNS(ns,'defs'),gem.firstChild);
-    defs.insertAdjacentHTML('beforeend','<linearGradient id="sweepG" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><clipPath id="gemClip"><path d="M45 10h110l40 45L100 165 5 55z"/></clipPath>');
-    var g=document.createElementNS(ns,'g');g.setAttribute('clip-path','url(#gemClip)');
-    g.innerHTML='<rect class="gem-sweep" x="-40" y="-20" width="60" height="220" fill="url(#sweepG)" opacity=".35" transform="translate(-220 0)"/>';
-    gem.appendChild(g);
   }
 
   /* Sparkle canvases in dark bands */

@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<section class="page-hero">
+  <span class="gem-line" aria-hidden="true"><img src="drs-mark.png" alt="" width="760" height="578"></span>
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="blog.html">Blog</a><span aria-hidden="true">/</span><span>{{ page.category }}</span></p>
+    <h1>{{ page.title }}</h1>
+    <p class="post-meta"><span><time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %-d, %Y" }}</time></span><span>{{ content | number_of_words | divided_by: 200 | plus: 1 }} min read</span><span>{{ page.author }}</span></p>
+  </div>
+</section>
+<section class="band" aria-label="Article">
+  <div class="wrap post-layout">
+    <article>
+      {% if page.image %}<figure class="post-cover"><img src="{{ page.image }}" alt=""></figure>{% endif %}
+      <div class="article">
+{{ content }}
+      </div>
+      <p class="post-disclaimer">This article is for general information only and is not tax, legal or investment advice. Rules and limits change; please talk with a qualified professional about your own situation.</p>
+    </article>
+    <aside class="post-aside">
+        <div class="card">
+          <p class="tag">Have a question?</p>
+          <h3>Talk it through with us</h3>
+          <p>Every situation is different. A free consultation shows how this applies to you.</p>
+          <a class="btn btn-ink" href="contact.html">Book a consultation</a>
+          <p>Or call <strong>480.750.2999</strong></p>
+        </div>
+        <a class="back" href="blog.html">← All articles</a>
+      </aside>
+  </div>
+</section>
+<section class="band band-alt" aria-labelledby="moreTitle">
+  <div class="wrap">
+    <div class="sec-row"><div class="sec-head"><p class="eyebrow">Keep reading</p><h2 id="moreTitle">More from the blog</h2></div><a class="textlink" href="blog.html">All articles →</a></div>
+    <div class="post-grid" style="margin-top:40px">
+      {% assign featured = false %}{% assign shown = 0 %}{% for post in site.posts %}{% if post.url != page.url and shown < 3 %}<a class="post-card{% if forloop.first and featured %} featured{% endif %}" href="{{ post.url | remove_first: '/' }}" data-cat="{{ post.category }}">{% if post.image %}<div class="post-thumb"><img src="{{ post.image }}" alt="" loading="lazy"></div>{% else %}<div class="post-thumb" aria-hidden="true"><span class="thumb-mark" aria-hidden="true"><img src="drs-mark.png" alt="" width="760" height="578"></span><span class="cat">{{ post.category }}</span></div>{% endif %}<div class="body"><p class="meta">{{ post.category }} · <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%B %-d, %Y" }}</time></p><h3>{{ post.title }}</h3><p>{{ post.excerpt | strip_html | strip }}</p><span class="go">Read article →</span></div></a>{% assign shown = shown | plus: 1 %}{% endif %}{% endfor %}
+    </div>
+  </div>
+</section>

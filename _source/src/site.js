@@ -35,3 +35,16 @@
     upd();
   }
 })();
+/* Blog category filter */
+(function(){
+  var bar=document.querySelector('.filters');if(!bar)return;
+  var cards=[].slice.call(document.querySelectorAll('.post-card')),empty=document.getElementById('noPosts');
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    bar.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var f=b.getAttribute('data-filter'),shown=0;
+    cards.forEach(function(c){var on=f==='all'||c.getAttribute('data-cat')===f;c.hidden=!on;if(on)shown++;c.classList.toggle('featured',false)});
+    var first=cards.find(function(c){return !c.hidden});if(first&&f==='all')first.classList.add('featured');
+    if(empty)empty.hidden=shown>0;
+  });
+})();

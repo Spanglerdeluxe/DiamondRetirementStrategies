@@ -85,3 +85,41 @@
 
 .jump{top:calc(env(safe-area-inset-top,0px) + 80px)}
 @media (max-width:480px){.jump{top:calc(env(safe-area-inset-top,0px) + 70px)}}
+
+/* ===== v8: header stays put between pages ===== */
+html{scrollbar-gutter:stable}
+.site-header{view-transition-name:site-header}
+::view-transition-group(site-header),::view-transition-old(site-header),::view-transition-new(site-header){animation:none}
+::view-transition-old(site-header){display:none}
+
+/* ===== v8: decorative diamond = the DRS logo mark ===== */
+.hero-gem,.gem-line,.thumb-mark{display:block}
+.hero-gem img,.gem-line img,.thumb-mark img{display:block;width:100%;height:auto}
+.hero-gem{width:min(34vw,430px);top:15%;opacity:1;filter:brightness(1.2) drop-shadow(0 0 48px rgba(167,163,234,.28))}
+.page-hero .gem-line{top:50%;bottom:auto;margin-top:-90px;width:min(24vw,250px);opacity:.42;filter:brightness(1.25)}
+.post-thumb .thumb-mark{position:absolute;right:-2%;bottom:-16%;width:56%;opacity:.5;z-index:-1;filter:brightness(1.25)}
+.post-card.featured .post-thumb .thumb-mark{width:44%;right:8%;top:50%;bottom:auto;transform:translateY(-55%)}
+.hero-gem::after,.page-hero .gem-line::after{content:"";position:absolute;inset:0;pointer-events:none;
+  -webkit-mask:url(drs-mark.png) center/100% 100% no-repeat;mask:url(drs-mark.png) center/100% 100% no-repeat;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.9) 50%,transparent 62%) no-repeat;background-size:260% 100%;background-position:160% 0;opacity:.8}
+@media (max-width:760px){.hero-gem{opacity:.3;width:72vw;right:-12vw;top:10%}.page-hero .gem-line{opacity:.16;width:52vw}}
+@media (prefers-reduced-motion:no-preference){
+  .hero-gem img{animation:gemIn 1.6s .2s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes gemIn{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:none}}
+  .hero-gem::after,.page-hero .gem-line::after{animation:markShine 7s 1.8s ease-in-out infinite}
+  @keyframes markShine{0%{background-position:160% 0}45%,100%{background-position:-60% 0}}
+}
+
+/* ===== v9: header keeps one height while scrolling (no shrink) ===== */
+.site-header.scrolled .brand .logo-img{height:72px}
+.site-header.scrolled .header-row{min-height:96px}
+.jump{top:calc(env(safe-area-inset-top,0px) + 97px)}
+@media (max-width:480px){
+  .site-header.scrolled .brand .logo-img{height:58px}
+  .site-header.scrolled .header-row{min-height:80px}
+  .jump{top:calc(env(safe-area-inset-top,0px) + 81px)}
+}
+
+/* ===== v9: homepage diamond matches the inner-page size ===== */
+.hero-gem{width:min(24vw,250px);right:max(16px,6vw);top:50%;margin-top:-150px;opacity:.42;filter:brightness(1.25)}
+@media (max-width:760px){.hero-gem{opacity:.16;width:52vw;right:-6vw;top:12%;margin-top:0}}

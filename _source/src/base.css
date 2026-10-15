@@ -69,7 +69,7 @@ a{color:inherit}
 .menu-btn[aria-expanded="true"] span{background:transparent}
 .menu-btn[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg)}
 .menu-btn[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg)}
-@media (max-width:960px){
+@media (max-width:1120px){
   .menu-btn{display:inline-flex}
   .nav{position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;background:var(--bg);border-bottom:1px solid var(--line);padding:8px var(--gutter-r) 20px var(--gutter-l);box-shadow:var(--shadow)}
   .nav[data-open="false"]{display:none}

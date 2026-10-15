@@ -1,0 +1,16 @@
+title: Diamond Retirement Strategies
+description: "Diamond Retirement Strategies helps individuals, couples and families in Phoenix, AZ plan dependable retirement income: rollovers, annuities, Medicare, long-term care and life insurance."
+permalink: /blog-:title:output_ext
+markdown: kramdown
+timezone: America/Phoenix
+exclude:
+  - README.md
+  - BLOG-GUIDE.md
+  - _source
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: Diamond Retirement Strategies
