@@ -421,6 +421,9 @@ table.ages{width:100%;border-collapse:collapse;min-width:620px;font-size:15px}
 .teaser{grid-template-rows:auto 1fr auto;align-content:stretch}
 .teaser span{align-self:end}
 
+/* Four service cards: 2 x 2 */
+@media (min-width:621px){.svc-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 /* ================= VFX layer ================= */
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}

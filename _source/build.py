@@ -35,7 +35,7 @@ FOOTER = f'''<footer>
   <div class="wrap foot-grid">
     <div class="foot-brand">
       <span class="logo-plate"><img class="logo-img" src="drs-logo.png" width="600" height="408" alt="Diamond Retirement Strategies"></span>
-      <p>Retirement income planning for individuals, couples and families in Phoenix and across the Valley.</p>
+      <p>Retirement planning for individuals, couples and families nationwide.</p>
     </div>
     <div>
       <h4>Explore</h4>
@@ -43,7 +43,7 @@ FOOTER = f'''<footer>
     </div>
     <div>
       <h4>Contact</h4>
-      <ul><li><a href="contact.html">Book a consultation</a></li><li>Phone {PHONE}</li><li>Fax 480.636.7734</li><li>Phoenix, AZ · Valley-wide</li></ul>
+      <ul><li><a href="contact.html">Book a consultation</a></li><li>Phone {PHONE}</li><li>Fax 480.636.7734</li></ul>
     </div>
     <div>
       <h4>Follow</h4>
@@ -62,7 +62,7 @@ CTA_STRIP = f'''<section class="band cta" aria-label="Book a consultation">
   <div class="wrap strip">
     <div>
       <p class="eyebrow">Let's begin</p>
-      <h2>Ready for a clear look at your retirement income?</h2>
+      <h2>Ready for a clear look at your retirement plan?</h2>
       <p>Book a no-cost, no-obligation review with our team. Most first meetings take about an hour.</p>
     </div>
     <div class="cta-actions">
@@ -125,7 +125,7 @@ def render_body(text):
 import datetime, markdown, yaml, html as _html
 
 SKELETON_STYLE = '<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{scrollbar-gutter:stable}.brand .logo-img{height:72px;width:auto}</style>'
-DESC = "Diamond Retirement Strategies helps individuals, couples and families in Phoenix, AZ plan dependable retirement income: rollovers, annuities, Medicare, long-term care and life insurance."
+DESC = "Diamond Retirement Strategies helps individuals, couples and families plan a safe retirement: retirement planning, rollovers, annuities, life insurance, estate and legacy planning. Licensed in 29 states."
 
 def inner(key, main, strip):
     return f'''{header(key)}
@@ -190,7 +190,7 @@ def card(p, featured=False):
       </a>'''
 
 BLOG_HERO = page_hero("Blog", "Insights for a <em>confident</em> retirement.",
-                      "Plain-English articles on retirement income, Social Security, Medicare and more from the team at Diamond Retirement Strategies.")
+                      "Plain-English articles on retirement planning, Social Security, rollovers and more from the team at Diamond Retirement Strategies.")
 
 def blog_index(cards_html, filters_html):
     return f'''{BLOG_HERO}
@@ -259,7 +259,7 @@ blog_main = blog_index("\n      ".join(card(p, i == 0) for i, p in enumerate(pos
 GENERATED = {}  # fname -> (title, key, main, strip, desc)
 for fname, title, key, body, strip in PAGES:
     GENERATED[fname] = (title, key, render_body((SRC / "pages" / body).read_text()), strip, DESC)
-GENERATED["blog.html"] = ("Blog · Diamond Retirement Strategies", "blog", blog_main, True, "Articles on retirement income, Social Security, Medicare and more from Diamond Retirement Strategies.")
+GENERATED["blog.html"] = ("Blog · Diamond Retirement Strategies", "blog", blog_main, True, "Articles on retirement planning, Social Security, rollovers and more from Diamond Retirement Strategies.")
 for p in posts:
     more = "\n      ".join(card(q) for q in posts if q is not p)[:]
     cover = f'<figure class="post-cover"><img src="{p["image"]}" alt=""></figure>' if p.get("image") else ""
@@ -391,3 +391,14 @@ srcdir = DEPLOY / "_source"; srcdir.mkdir()
 shutil.copytree(SRC, srcdir / "src"); shutil.copy(__file__, srcdir / "build.py")
 shutil.copytree(ASSETS, srcdir / "assets", ignore=shutil.ignore_patterns("ARE-6794*"))
 print("deploy files:", sum(1 for _ in DEPLOY.rglob("*") if _.is_file()))
+
+# ---------------- Cache-busting: pages always load the matching CSS/JS ----------------
+import hashlib
+def _ver(p): return hashlib.md5(p.read_bytes()).hexdigest()[:8]
+CSS_V, JS_V = _ver(OUT / "site.css"), _ver(OUT / "site.js")
+for root in (OUT, DEPLOY):
+    for f in list(root.glob("*.html")) + list((root / "_layouts").glob("*.html")):
+        t = f.read_text()
+        t2 = t.replace('href="site.css"', f'href="site.css?v={CSS_V}"').replace('src="site.js"', f'src="site.js?v={JS_V}"')
+        if t2 != t: f.write_text(t2)
+print("asset versions:", CSS_V, JS_V)
