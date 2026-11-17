@@ -208,3 +208,8 @@ table.ages{width:100%;border-collapse:collapse;min-width:620px;font-size:15px}
 
 /* Four service cards: 2 x 2 */
 @media (min-width:621px){.svc-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Keep the desktop menu on one line at in-between widths and when printing */
+.nav a{white-space:nowrap}
+@media (min-width:1121px) and (max-width:1320px){.nav{gap:20px}.nav a{font-size:13.5px}.nav .btn{padding:0 16px}}
+@media print{.site-header{position:static}.jump{position:static}}
